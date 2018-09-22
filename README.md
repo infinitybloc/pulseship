@@ -45,8 +45,44 @@ Any monitoring projects is always continuous, we'll be adding more visualization
 
 If you don't see your logs and/or metrics on the **PULSE** link above, you can quickly check locally on your host:
 
-* to check/debug
+### Maintenace
+* Pulse components write some logs to the following files that you might want to delete periodically or do local log rotation on:
+```
+/var/log/filebeat/*
+/var/log/metricbeat/*
+```
+
+### DEBUG
+
+* If you don't see your shipper or host on the dashboard, you can see whether there are any issues in the flogs below:
 ```
 tail -f /var/log/filebeat/filebeat
-tail -f /var/log/filebeat/metricbeat
+tail -f /var/log/metricbeat/metricbeat
 ```
+* If there are some issues and you'd line to reset your system here is a sequece of scripts that you can run:
+```
+$ ../pulseship/pulship_stop.sh # stop shipping data to pulse
+$ ../pulseship/pulship_reset.sh # reset the configuration, you'll need to set your config again as above
+$ ../pulseship/pulship_start.sh # start shipping with new configs
+```
+* To completely remove the components from your system run:
+```
+$ ../pulseship/pulship_clean.sh
+```
+The clean install of the components can be done after clean.
+
+* If there are 2 or more systems with the same shipper and hostname, the logs will be "merged" in the dashboard. Make sure that at elast the hostame is different for each system.
+
+Please see the sysadmin or forum for your chain to check for maping of tags to **PULSE** accounts. For example if you were given an account of *telos-bp-ops*, you'll have to set tags to *telos* and *testnet.telos* (just and example, refer to the instuctions).
+
+Please free to open an issue, this is in alpha, so we'll definitely jump on it! :)
+
+
+
+
+
+
+
+
+
+
